@@ -8,7 +8,6 @@ import os
 
 CONFIG_FILE = "printer_config.json"
 
-
 def load_config():
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, "r") as f:
@@ -20,14 +19,12 @@ def save_config(vid, pid):
     with open(CONFIG_FILE, "w") as f:
         json.dump({"vid": vid, "pid": pid}, f)
 
-
 def center_window(root, width=430, height=450):
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     x = (screen_width // 2) - (width // 2)
     y = (screen_height // 2) - (height // 2)
     root.geometry(f'{width}x{height}+{x}+{y}')
-
 
 class PrintApp:
     def __init__(self, root):
@@ -148,8 +145,8 @@ class PrintApp:
         except Exception as e:
             messagebox.showerror("Error", f"Something went wrong:\n{e}")
 
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = PrintApp(root)
     root.mainloop()
+
