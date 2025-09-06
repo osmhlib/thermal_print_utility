@@ -40,7 +40,6 @@ class PrintApp:
 
         config = load_config()
 
-        # Панель для VID / PID
         config_frame = tk.Frame(root)
         config_frame.pack(pady=5)
 
@@ -54,17 +53,16 @@ class PrintApp:
         self.pid_entry.insert(0, config["pid"])
         self.pid_entry.pack(side=tk.LEFT, padx=5)
 
-        # Верхня панель управління
         control_frame = tk.Frame(root)
         control_frame.pack(pady=5)
 
-        self.choose_btn = tk.Button(control_frame, text="🖼️ Обрати зображення", command=self.select_image)
+        self.choose_btn = tk.Button(control_frame, text="🖼️ Select image", command=self.select_image)
         self.choose_btn.pack(side=tk.LEFT, padx=5)
 
-        self.print_btn = tk.Button(control_frame, text="🖨️ Надрукувати", command=self.print_image)
+        self.print_btn = tk.Button(control_frame, text="🖨️ Print", command=self.print_image)
         self.print_btn.pack(side=tk.LEFT, padx=5)
 
-        self.contrast_label = tk.Label(control_frame, text="Контраст")
+        self.contrast_label = tk.Label(control_frame, text="Contrast")
         self.contrast_label.pack(side=tk.LEFT, padx=5)
 
         self.contrast_slider = tk.Scale(
@@ -74,28 +72,25 @@ class PrintApp:
         self.contrast_slider.set(1.0)
         self.contrast_slider.pack(side=tk.LEFT, padx=5)
 
-        # Поле для вибору кількості копій
         copies_frame = tk.Frame(root)
         copies_frame.pack(pady=5)
 
-        self.copies_label = tk.Label(copies_frame, text="Кількість копій:")
+        self.copies_label = tk.Label(copies_frame, text="Number of copies:")
         self.copies_label.pack(side=tk.LEFT, padx=5)
 
         self.copies_spinbox = tk.Spinbox(copies_frame, from_=1, to=20, width=5)
         self.copies_spinbox.pack(side=tk.LEFT, padx=5)
 
-        # Область для перегляду зображення
         self.image_label = tk.Label(root)
         self.image_label.pack(pady=10)
 
     def select_image(self):
         filetypes = (("Image files", "*.png *.bmp *.jpg *.jpeg"),)
-        filepath = filedialog.askopenfilename(title="Обрати зображення", filetypes=filetypes)
+        filepath = filedialog.askopenfilename(title="Select image", filetypes=filetypes)
         if filepath:
             self.image_path = filepath
             img = Image.open(filepath).convert("L")
 
-            # Масштабування під ширину принтера
             max_width = 384
             aspect_ratio = img.width / img.height
             max_height = int(max_width / aspect_ratio)
@@ -125,7 +120,7 @@ class PrintApp:
 
     def print_image(self):
         if not self.img_original:
-            messagebox.showwarning("Увага", "Спочатку обери зображення.")
+            messagebox.showwarning("Attention", "First select an image.")
             return
         try:
             vid_text = self.vid_entry.get().strip()
@@ -149,9 +144,9 @@ class PrintApp:
                 printer.cut()
 
             printer.close()
-            messagebox.showinfo("Успіх", f"Надруковано {copies} копій.")
+            messagebox.showinfo("Success", f"Printed {copies} copies.")
         except Exception as e:
-            messagebox.showerror("Помилка", f"Щось пішло не так:\n{e}")
+            messagebox.showerror("Error", f"Something went wrong:\n{e}")
 
 
 if __name__ == "__main__":
